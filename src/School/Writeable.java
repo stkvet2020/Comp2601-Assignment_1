@@ -5,6 +5,7 @@ package School;
  * @author stephan knappstein A01208242
  * @version 1.0
  */
+@FunctionalInterface
 public interface Writeable {
     /**
      * Processes the given string data within a specified numerical range.
