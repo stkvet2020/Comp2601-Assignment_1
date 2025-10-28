@@ -72,14 +72,30 @@ public class Date implements Orderable, Comparable<Date> {
      * @param day   the day of the month (1-31)
      */
     public Date(int year, int month, int day) {
-        // Validation
-        if( year < MIN_YEAR ||  year > CURRENT_YEAR ){throw new IllegalArgumentException("bad year!");}
+        validateYear(year);
         this.year = year;
-        if( month < MIN_MONTH || month > MAX_MONTH ){throw new IllegalArgumentException("bad month!");}
+        validateMonth(month);
         this.month = month;
-        // Allowing for different number of days contingent on if we have a leap year or not
-        if( day < MIN_DAY || day > MAX_DAY ){throw new IllegalArgumentException("bad day!");}
+        validateDay(day, month, year);
+        this.day = day;
+    }
 
+    private static void validateYear(int year) {
+        if (year < MIN_YEAR || year > CURRENT_YEAR) {
+            throw new IllegalArgumentException("bad year!");
+        }
+    }
+
+    private static void validateMonth(int month) {
+        if (month < MIN_MONTH || month > MAX_MONTH) {
+            throw new IllegalArgumentException("bad month!");
+        }
+    }
+
+    private static void validateDay(int day, int month, int year) {
+        if (day < MIN_DAY) {
+            throw new IllegalArgumentException("bad day!");
+        }
         int maxDaysInMonth;
         if (month == FEBRUARY) {
             maxDaysInMonth = isLeapYear(year) ? DAYS_IN_LEAP_FEB : DAYS_IN_COMMON_FEB;
@@ -88,11 +104,9 @@ public class Date implements Orderable, Comparable<Date> {
         } else {
             maxDaysInMonth = DAYS_IN_LONG_MONTH;
         }
-
         if (day > maxDaysInMonth) {
             throw new IllegalArgumentException("Invalid day: " + day + " for month " + month + " in year " + year);
         }
-        this.day = day;
     }
 
     /**

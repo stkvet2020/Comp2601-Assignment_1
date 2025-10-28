@@ -22,18 +22,35 @@ public class Name {
      */
     public Name(String first, String last) {
         super();
-        if(first == null || first.isBlank()){throw new IllegalArgumentException("bad first name!");}
-        else if ( isNumeric(first)) {throw new IllegalArgumentException("First Name cannot contain numeric characters");}
-        else if (isAdmin(first)) {throw new IllegalArgumentException("Name cannot be admin");}
-        else if (max45char(first)) {throw new IllegalArgumentException("Name cannot be longer than 45 characters");}
+        validateFirstName(first);
         this.first = first;
-        if(last == null || last.isBlank()){throw new IllegalArgumentException("NUll or blank String provided");}
-        else if ( isNumeric(last)) {throw new IllegalArgumentException("Last Name cannot contain numeric characters");}
-        else if (isAdmin(last)) {throw new IllegalArgumentException("Name cannot be admin");}
-        else if (max45char(last)) {throw new IllegalArgumentException("Name cannot be longer than 45 characters");}
+        validateLastName(last);
         this.last = last;
     }
 
+    private static void validateFirstName(String first) {
+        if (first == null || first.isBlank()) {
+            throw new IllegalArgumentException("bad first name!");
+        }
+        if (isNumeric(first)) {
+            throw new IllegalArgumentException("First Name cannot contain numeric characters");
+        }
+        if (max45char(first)) {
+            throw new IllegalArgumentException("Name cannot be longer than 45 characters");
+        }
+    }
+
+    private static void validateLastName(String last) {
+        if (last == null || last.isBlank()) {
+            throw new IllegalArgumentException("Null or blank String provided");
+        }
+        if (isNumeric(last)) {
+            throw new IllegalArgumentException("Last Name cannot contain numeric characters");
+        }
+        if (max45char(last)) {
+            throw new IllegalArgumentException("Name cannot be longer than 45 characters");
+        }
+    }
     /**
      * Checks if a given string can be parsed as a number.
      * @param strNum The string to check.
