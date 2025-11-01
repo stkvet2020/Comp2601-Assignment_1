@@ -82,25 +82,26 @@ public class Date implements Orderable, Comparable<Date> {
 
     private static void validateYear(int year) {
         if (year < MIN_YEAR || year > CURRENT_YEAR) {
-            throw new IllegalArgumentException("bad year!");
+            throw new IllegalArgumentException("invalid year!");
         }
     }
 
     private static void validateMonth(int month) {
         if (month < MIN_MONTH || month > MAX_MONTH) {
-            throw new IllegalArgumentException("bad month!");
+            throw new IllegalArgumentException("invalid month!");
         }
     }
 
     private static void validateDay(int day, int month, int year) {
         if (day < MIN_DAY) {
-            throw new IllegalArgumentException("bad day!");
+            throw new IllegalArgumentException("invalid day!");
         }
         int maxDaysInMonth;
         if (month == FEBRUARY) {
             maxDaysInMonth = isLeapYear(year) ? DAYS_IN_LEAP_FEB : DAYS_IN_COMMON_FEB;
         } else if (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER) {
             maxDaysInMonth = DAYS_IN_SHORT_MONTH;
+            
         } else {
             maxDaysInMonth = DAYS_IN_LONG_MONTH;
         }
@@ -179,9 +180,9 @@ public class Date implements Orderable, Comparable<Date> {
      * @return The name of the day of the week as a String (e.g., "Monday").
      */
 
-    public String getDayOfTheWeek(int year, int month, int day){
+    public String getDayOfTheWeek(){
 
-        int lastTwoYearDigits = year % LEAP_YEAR_DIVISOR_100;
+        int lastTwoYearDigits = this.year % LEAP_YEAR_DIVISOR_100;
         int numberOfTwelves;
         int remainderOfnumberOfTwelves;
         int numberOfFours;
@@ -189,18 +190,18 @@ public class Date implements Orderable, Comparable<Date> {
         int datesIn2000sValue;
         int datesIn1800sValue;
         int daySelectionValue;
-        String dayOfTheWeek ="";
+        String dayOfTheWeek = "";
 
-        if (isLeapYear(year) && (month <= FEBRUARY)) {
+        if (isLeapYear(this.year) && (this.month <= FEBRUARY)) {
             janFebLeapYearValue = LEAP_YEAR_JAN_FEB_ADJUSTMENT;
         } else {
             janFebLeapYearValue = 0;
         }
 
-        if (year >= YEAR_2000){datesIn2000sValue = CENTURY_2000S_CODE;}
+        if (this.year >= YEAR_2000){datesIn2000sValue = CENTURY_2000S_CODE;}
         else {datesIn2000sValue = 0;}
 
-        if (year>=YEAR_1800 && year <= YEAR_1899) {datesIn1800sValue = CENTURY_1800S_CODE;}
+        if (this.year>=YEAR_1800 && this.year <= YEAR_1899) {datesIn1800sValue = CENTURY_1800S_CODE;}
         else {datesIn1800sValue = 0;}
 
         //Number of twelves in lastTwoYearDigits
@@ -216,7 +217,7 @@ public class Date implements Orderable, Comparable<Date> {
         // Day selection value
         daySelectionValue = (janFebLeapYearValue + datesIn2000sValue +
                 datesIn1800sValue + numberOfTwelves + remainderOfnumberOfTwelves + numberOfFours +
-                getDay() + getMonthCode(month)) % MODULO_DAYS_IN_WEEK;
+                this.day + getMonthCode(this.month)) % MODULO_DAYS_IN_WEEK;
         // if statements to choose day
         if (daySelectionValue == 0) {dayOfTheWeek = "Saturday";}
         else if (daySelectionValue == 1) {dayOfTheWeek = "Sunday";}
@@ -236,10 +237,7 @@ public class Date implements Orderable, Comparable<Date> {
         return String.format("%04d-%02d-%02d", year, month, day);
     }
 
-    /**
-     * Main method to demonstrate the Date class functionality.
-     * @param args Command line arguments (not used).
-     */
+
 
 
     /**
@@ -264,7 +262,7 @@ public class Date implements Orderable, Comparable<Date> {
      * @return the next Orderable object in the sequence.
      */
     @Override
-    public Orderable next() {
+    public Date next() {
         int maxDaysInMonth;
         if (month == FEBRUARY) {
             maxDaysInMonth = isLeapYear(year) ? DAYS_IN_LEAP_FEB : DAYS_IN_COMMON_FEB;
@@ -289,7 +287,7 @@ public class Date implements Orderable, Comparable<Date> {
      * @return the previous Orderable object in the sequence.
      */
     @Override
-    public Orderable previous() {
+    public Date previous() {
         if (day > 1) {
             return new Date(year, month, day - 1);
         } else {

@@ -18,18 +18,14 @@ public class Teacher extends Person {
      */
     public Teacher(Date born, Name name, String specialty) {
         super(born, name);
-        if (specialty == null || specialty.isBlank()) {
-            throw new IllegalPersonException("bad specialty");
-        }
+        validateSpecialty(specialty);
         this.specialty = specialty;
     }
 
-    private static void validateSpecialty(String specialty, Date born) {
+    private static void validateSpecialty(String specialty) {
         try {
         if (specialty == null || specialty.isBlank()) {
                 throw new IllegalPersonException("Specialty cannot be blank or null");
-            }else if (born==null){
-                throw new IllegalPersonException("Bad date of birth");
             }
     } catch (Exception e) {
         // TODO Auto-generated catch block
@@ -65,6 +61,14 @@ public class Teacher extends Person {
                     getDateOfDeath().getYyyyMmDd());
         }
     }
+       public static void main(String[] args)
+    {
+        System.out.println("***Working on Class Teacher***");
+        Date teacher1date = new Date( 2015,12,15);
+        Name teacher1name = new Name("jerry", "smith");
 
-    
+        Teacher teacher1 = new Teacher(teacher1date, teacher1name , null);
+        System.out.println(teacher1);
+    }
+
 }
