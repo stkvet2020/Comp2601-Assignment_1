@@ -30,7 +30,7 @@ public class Name {
 
     private static void validateFirstName(String first) {
         if (first == null || first.isBlank()) {
-            throw new IllegalArgumentException("bad first name!");
+            throw new IllegalArgumentException("invalid first name");
         }
         if (isNumeric(first)) {
             throw new IllegalArgumentException("First Name cannot contain numeric characters");
@@ -42,7 +42,7 @@ public class Name {
 
     private static void validateLastName(String last) {
         if (last == null || last.isBlank()) {
-            throw new IllegalArgumentException("Null or blank String provided");
+            throw new IllegalArgumentException("invalid last name");
         }
         if (isNumeric(last)) {
             throw new IllegalArgumentException("Last Name cannot contain numeric characters");

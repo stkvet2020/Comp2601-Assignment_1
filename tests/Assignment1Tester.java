@@ -1,4 +1,6 @@
 
+
+
 import School.*;
 
 import java.io.*;
@@ -342,9 +344,9 @@ public class Assignment1Tester
         Date d;
         d = new Date(1, 1, 2021);
         if((!d.getDayOfTheWeek().equals("Friday")) ||
-           (!d.getYyyyMmDd().equals("2021-01-01")) ||
-           (!d.next().getYyyyMmDd().equals("2021-01-02")) ||
-           (!d.previous().getYyyyMmDd().equals("2020-12-31")))
+                (!d.getYyyyMmDd().equals("2021-01-01")) ||
+                (!d.next().getYyyyMmDd().equals("2021-01-02")) ||
+                (!d.previous().getYyyyMmDd().equals("2020-12-31")))
         {
             System.out.println("Date class is wrong: code 1");
             return;

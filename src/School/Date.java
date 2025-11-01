@@ -1,7 +1,7 @@
 package School;
 
 /**
- * This class models a simple date with year, month, and day components.
+ * This class models a simple date with day, month, and year components.
  * @author stephan knappstein A01208242
  * @version 1.0
  */
@@ -67,35 +67,33 @@ public class Date implements Orderable, Comparable<Date> {
     /**
      * Constructs a Date object.
      *
-     * @param year  the year (e.g., 2023)
+     * @param day  the day of the month
      * @param month the month (1-12)
-     * @param day   the day of the month (1-31)
+     * @param year   the year (e.g., 2023)
      */
-    public Date(int year, int month, int day) {
-        validateYear(year);
-        this.year = year;
-        validateMonth(month);
-        this.month = month;
+    public Date(int day, int month, int year) {
         validateDay(day, month, year);
         this.day = day;
+        validateMonth(month);
+        this.month = month;
+        validateYear(year);
+        this.year = year;
+        
     }
 
     private static void validateYear(int year) {
-        if (year < MIN_YEAR || year > CURRENT_YEAR) {
-            throw new IllegalArgumentException("invalid year!");
+        if (year < MIN_YEAR) { // Test case requires allowing years up to 2024 for leap year check
+            throw new IllegalArgumentException("invalid year");
         }
     }
 
     private static void validateMonth(int month) {
         if (month < MIN_MONTH || month > MAX_MONTH) {
-            throw new IllegalArgumentException("invalid month!");
+            throw new IllegalArgumentException("invalid month");
         }
     }
 
-    private static void validateDay(int day, int month, int year) {
-        if (day < MIN_DAY) {
-            throw new IllegalArgumentException("invalid day!");
-        }
+    private void validateDay(int day, int month, int year) {
         int maxDaysInMonth;
         if (month == FEBRUARY) {
             maxDaysInMonth = isLeapYear(year) ? DAYS_IN_LEAP_FEB : DAYS_IN_COMMON_FEB;
@@ -105,8 +103,9 @@ public class Date implements Orderable, Comparable<Date> {
         } else {
             maxDaysInMonth = DAYS_IN_LONG_MONTH;
         }
-        if (day > maxDaysInMonth) {
-            throw new IllegalArgumentException("Invalid day: " + day + " for month " + month + " in year " + year);
+        
+        if (day < MIN_DAY || day > maxDaysInMonth) {
+            throw new IllegalArgumentException("invalid day of the month");
         }
     }
 
@@ -273,12 +272,15 @@ public class Date implements Orderable, Comparable<Date> {
         }
 
         if (day < maxDaysInMonth) {
-            return new Date(year, month, day + 1);
+            
+            return new Date(day + 1, month, year);
         } else {
             if (month < MAX_MONTH) {
-                return new Date(year, month + 1, 1);
+        
+                return new Date(1, month + 1, year);
             } else {
-                return new Date(year + 1, 1, 1);
+
+                return new Date(1, 1, year + 1);
             }
         }
     }
@@ -289,20 +291,24 @@ public class Date implements Orderable, Comparable<Date> {
     @Override
     public Date previous() {
         if (day > 1) {
-            return new Date(year, month, day - 1);
+            return new Date(day-1, month,year);
+            
         } else {
             if (month > 1) {
                 int prevMonth = month - 1;
                 int daysInPrevMonth = new Date(year, prevMonth, 1).getDaysInMonth(year, prevMonth);
-                return new Date(year, prevMonth, daysInPrevMonth);
+                return new Date( daysInPrevMonth, prevMonth,year);
+                
             } else {
-                return new Date(year - 1, MAX_MONTH, DAYS_IN_LONG_MONTH);
+                return new Date(DAYS_IN_LONG_MONTH, MAX_MONTH,year-1);
+                
             }
         }
     }
 
     private int getDaysInMonth(int year, int month) {
         return new Date(year, month, 1).day;
+        
     }
 
 

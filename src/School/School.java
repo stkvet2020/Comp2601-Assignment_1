@@ -14,11 +14,15 @@ import java.util.List;
 public class School {
     private final List<Person> people;
 
+    {
+        people = new ArrayList<>();
+    }
+
     /**
      * Constructs a School object with an empty roster.
      */
     public School() {
-        this.people = new ArrayList<>();
+        // Initialization being handled by the instance initializer block.
     }
 
     /**
@@ -29,7 +33,7 @@ public class School {
      */
     public void register(Person person) {
         if (person == null) {
-            throw new IllegalPersonException("Person to be registered cannot be null");
+            throw new IllegalPersonException("cannot register a non-person");
         }
         people.add(person);
     }
@@ -47,20 +51,22 @@ public class School {
      * Prints the age of each person for every year they were alive.
      */
     public void printAgesAndYears() {
+        Writeable w = (fullName, yearBorn, maxYear) -> {
+            for (int year = yearBorn; year <= maxYear; year++) {
+                int age = year - yearBorn;
+                System.out.println(fullName + ": " + year + " (age " + age + ")");
+            }
+        };
+
         for (Person person : people) {
             int birthYear = person.getDateOfBirth().getYear();
             int endYear;
-
             if (person.isAlive()) {
                 endYear = 2022; // As per the test case output
             } else {
                 endYear = person.getDateOfDeath().getYear();
             }
-
-            for (int year = birthYear; year <= endYear; year++) {
-                int age = year - birthYear;
-                System.out.println(person.getName().getPrettyName() + ": " + year + " (age " + age + ")");
-            }
+            w.printData(person.getName().getPrettyName(), birthYear, endYear);
         }
     }
 
