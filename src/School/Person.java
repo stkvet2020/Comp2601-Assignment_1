@@ -6,7 +6,7 @@ package School;
  * @version 1.0
  */
 public class Person implements Comparable<Person> {
-    private final Date born;
+    public final Date born;
     private Date died;
     private final Name name;
 

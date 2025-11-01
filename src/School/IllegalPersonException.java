@@ -6,7 +6,7 @@ package School;
  * @author stephan knappstein A01208242
  * @version 1.0
  */
- class IllegalPersonException extends RuntimeException {
+public class IllegalPersonException extends RuntimeException {
     public IllegalPersonException(String message) {
         super(message);
     }
